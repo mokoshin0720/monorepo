@@ -57,10 +57,14 @@ func (s Server) Run(ctx context.Context) {
 		break
 	}
 
+	log.Info().Msg("Starting server2")
+
 	s.HTTPServer.Shutdown(ctx)
 
 	err := g.Wait()
 	if err != nil {
 		os.Exit(2)
 	}
+
+	log.Info().Msg("Starting server3")
 }
