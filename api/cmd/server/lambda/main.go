@@ -1,12 +1,20 @@
 package main
 
 import (
+	"io"
+	"net/http"
+
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/mokoshin0720/monorepo/api/cmd/server"
+	"github.com/awslabs/aws-lambda-go-api-proxy/httpadapter"
 	"github.com/rs/zerolog/log"
 )
 
 func main() {
 	log.Info().Msg("Starting lambda server...")
-	lambda.Start(server.HandleRequest)
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		io.WriteString(w, "aws labs http adapter response!!")
+	})
+
+	lambda.Start(httpadapter.New(http.DefaultServeMux).ProxyWithContext)
 }
