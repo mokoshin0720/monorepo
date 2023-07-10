@@ -8,7 +8,10 @@ require (
 	go.uber.org/multierr v1.11.0
 )
 
-require github.com/jmespath/go-jmespath v0.4.0 // indirect
+require (
+	github.com/go-chi/chi/v5 v5.0.2 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
+)
 
 require (
 	github.com/aws/aws-lambda-go v1.41.0

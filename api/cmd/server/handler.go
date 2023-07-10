@@ -3,12 +3,12 @@ package server
 import (
 	"net/http"
 
-	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog/log"
 )
 
-func HandleRequest() {
+func HandleRequest() *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
@@ -22,7 +22,5 @@ func HandleRequest() {
 		w.Write([]byte("OK"))
 	})
 
-	log.Info().Msg("routing server...")
-
-	http.ListenAndServe(":9000", r)
+	return r
 }
