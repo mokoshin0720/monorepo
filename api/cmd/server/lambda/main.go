@@ -2,34 +2,24 @@ package main
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
-	"github.com/gin-gonic/gin"
-	"github.com/rs/zerolog/log"
 )
 
-var ginLambda *ginadapter.GinLambda
+func handleRequest(ctx context.Context, request events.LambdaFunctionURLRequest) (events.LambdaFunctionURLResponse, error) {
+	fmt.Printf("Processing request data for request %s.\n", request.RequestContext.RequestID)
+	fmt.Printf("Body size = %d.\n", len(request.Body))
 
-func init() {
-	// stdout and stderr are sent to AWS CloudWatch Logs
-	log.Printf("Gin cold start")
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	fmt.Println("Headers:")
+	for key, value := range request.Headers {
+		fmt.Printf("    %s: %s\n", key, value)
+	}
 
-	ginLambda = ginadapter.New(r)
-}
-
-func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	// If no name is provided in the HTTP request body, throw an error
-	return ginLambda.ProxyWithContext(ctx, req)
+	return events.LambdaFunctionURLResponse{Body: request.Body, StatusCode: 200}, nil
 }
 
 func main() {
-	lambda.Start(Handler)
+	lambda.Start(handleRequest)
 }
