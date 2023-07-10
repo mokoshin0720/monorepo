@@ -7,6 +7,9 @@ WORKDIR /go/src/app
 COPY api/go.mod api/go.sum ./
 # Build
 COPY api/ .
+
+RUN ls -la
+
 RUN go build -o main cmd/server
 
 # Copy artifacts to a clean image
