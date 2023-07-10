@@ -1,7 +1,15 @@
-FROM public.ecr.aws/lambda/go:1.20
+FROM golang:1.20-alpine3.16 as build
 
-# Copy function code
-COPY main ${LAMBDA_TASK_ROOT}
+ENV GO111MODULE=on
 
-# Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
-CMD [ "main" ]
+WORKDIR /go/src/app
+# Copy dependencies list
+COPY go.mod go.sum ./
+# Build
+COPY . .
+RUN go build -o main cmd/server
+
+# Copy artifacts to a clean image
+FROM alpine:3.16
+COPY --from=build /go/src/app/main /main
+ENTRYPOINT [ "/main" ]
