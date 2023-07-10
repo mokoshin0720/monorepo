@@ -12,4 +12,4 @@ services:
       - .:/go/src/app
     env_file:
       - .env
-    command: go run main.go
+    command: air -c .air.toml
