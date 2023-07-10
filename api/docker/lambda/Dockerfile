@@ -1,12 +1,7 @@
-FROM public.ecr.aws/lambda/go:latest
-
-ENV GO111MODULE=on
-
-WORKDIR ${LAMBDA_TASK_ROOT}
+FROM public.ecr.aws/lambda/go:1.20
 
 # Copy function code
-COPY . ${LAMBDA_TASK_ROOT}
+COPY main ${LAMBDA_TASK_ROOT}
 
-RUN go mod download
-
-CMD [ "cmd.server.main" ]
+# Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
+CMD [ "main" ]
