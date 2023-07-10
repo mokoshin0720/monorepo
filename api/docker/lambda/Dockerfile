@@ -1,4 +1,4 @@
-FROM public.ecr.aws/lambda/go:1.20
+FROM public.ecr.aws/lambda/go:latest
 
 ENV GO111MODULE=on
 
