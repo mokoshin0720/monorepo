@@ -1,18 +1,30 @@
 package main
 
 import (
+	"context"
+
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	chiadapter "github.com/awslabs/aws-lambda-go-api-proxy/chi"
 	"github.com/mokoshin0720/monorepo/api/cmd/server"
 	"github.com/rs/zerolog/log"
 )
 
-func main() {
-	log.Info().Msg("Starting lambda server...")
+var chiLambda *chiadapter.ChiLambda
+
+func init() {
+	log.Info().Msg("Initializing lambda server...")
 
 	router := server.HandleRequest()
 
-	lambda.Start(chiadapter.New(router).ProxyWithContext)
+	chiLambda = chiadapter.New(router)
+}
 
-	// lambda.Start(httpadapter.New(http.DefaultServeMux).ProxyWithContext)
+func handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	return chiLambda.ProxyWithContext(ctx, req)
+}
+
+func main() {
+	log.Info().Msg("Starting lambda server...")
+	lambda.Start(handler)
 }
