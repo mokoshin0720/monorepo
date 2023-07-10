@@ -2,37 +2,34 @@ package main
 
 import (
 	"context"
-	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	chiadapter "github.com/awslabs/aws-lambda-go-api-proxy/chi"
-	"github.com/go-chi/chi/v5"
+	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
+	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
 )
 
-var chiLambda *chiadapter.ChiLambda
+var ginLambda *ginadapter.GinLambda
 
 func init() {
-	log.Info().Msg("Initializing lambda server...")
-
-	r := chi.NewRouter()
-	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("pong"))
+	// stdout and stderr are sent to AWS CloudWatch Logs
+	log.Printf("Gin cold start")
+	r := gin.Default()
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
 	})
 
-	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("ok"))
-	})
-
-	chiLambda = chiadapter.New(r)
+	ginLambda = ginadapter.New(r)
 }
 
-func handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	return chiLambda.ProxyWithContext(ctx, req)
+func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	// If no name is provided in the HTTP request body, throw an error
+	return ginLambda.ProxyWithContext(ctx, req)
 }
 
 func main() {
-	log.Info().Msg("Starting lambda server...")
-	lambda.Start(handler)
+	lambda.Start(Handler)
 }
