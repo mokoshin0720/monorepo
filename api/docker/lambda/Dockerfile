@@ -4,9 +4,9 @@ ENV GO111MODULE=on
 
 WORKDIR /go/src/app
 # Copy dependencies list
-COPY go.mod go.sum ./
+COPY api/go.mod api/go.sum ./
 # Build
-COPY . .
+COPY api/ .
 RUN go build -o main cmd/server
 
 # Copy artifacts to a clean image
