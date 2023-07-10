@@ -2,7 +2,7 @@ root = "."
 tmp_dir = "./bin"
 
 [build]
-  cmd = "go build -o ./bin/server ./cmd/server"
+  cmd = "go build -o ./bin/server ./cmd/server/dev"
   bin = "./bin/server"
   exclude_dir = ["bin", "vendor", "hack"]
   exclude_file = []

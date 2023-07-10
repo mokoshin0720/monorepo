@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"net/http"
@@ -8,7 +8,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func main() {
+func HandleRequest() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 

@@ -10,7 +10,7 @@ COPY api/ .
 
 RUN ls -la
 
-RUN go build -o main ./cmd/server
+RUN go build -o main ./cmd/server/lambda
 
 # Copy artifacts to a clean image
 FROM alpine:3.16
