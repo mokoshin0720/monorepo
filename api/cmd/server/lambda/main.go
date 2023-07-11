@@ -2,24 +2,47 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"log"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
+	"github.com/gin-gonic/gin"
 )
 
-func handleRequest(ctx context.Context, request events.LambdaFunctionURLRequest) (events.LambdaFunctionURLResponse, error) {
-	fmt.Printf("Processing request data for request %s.\n", request.RequestContext.RequestID)
-	fmt.Printf("Body size = %d.\n", len(request.Body))
+var ginLambda *ginadapter.GinLambda
 
-	fmt.Println("Headers:")
-	for key, value := range request.Headers {
-		fmt.Printf("    %s: %s\n", key, value)
+func init() {
+	// stdout and stderr are sent to AWS CloudWatch Logs
+	log.Printf("Gin cold start")
+	r := gin.Default()
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
+
+	r.GET("/health", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "ok",
+		})
+	})
+
+	ginLambda = ginadapter.New(r)
+}
+
+func Handler(ctx context.Context, req events.LambdaFunctionURLRequest) (events.APIGatewayProxyResponse, error) {
+	apiReq := events.APIGatewayProxyRequest{
+		Path:                  req.RawPath,
+		HTTPMethod:            req.RequestContext.HTTP.Method,
+		Headers:               req.Headers,
+		QueryStringParameters: req.QueryStringParameters,
+		Body:                  req.Body,
 	}
 
-	return events.LambdaFunctionURLResponse{Body: request.Body, StatusCode: 200}, nil
+	return ginLambda.ProxyWithContext(ctx, apiReq)
 }
 
 func main() {
-	lambda.Start(handleRequest)
+	lambda.Start(Handler)
 }
