@@ -6,29 +6,17 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
-	"github.com/gin-gonic/gin"
+	chiadapter "github.com/awslabs/aws-lambda-go-api-proxy/chi"
+	"github.com/mokoshin0720/monorepo/api/cmd/server"
 )
 
-var ginLambda *ginadapter.GinLambda
+var chiLambda *chiadapter.ChiLambda
 
 func init() {
-	// stdout and stderr are sent to AWS CloudWatch Logs
-	log.Printf("Gin cold start")
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	log.Printf("chi cold start")
+	r := server.HandleRequest()
 
-	r.GET("/health", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "ok",
-		})
-	})
-
-	ginLambda = ginadapter.New(r)
+	chiLambda = chiadapter.New(r)
 }
 
 func Handler(ctx context.Context, req events.LambdaFunctionURLRequest) (events.APIGatewayProxyResponse, error) {
@@ -40,7 +28,7 @@ func Handler(ctx context.Context, req events.LambdaFunctionURLRequest) (events.A
 		Body:                  req.Body,
 	}
 
-	return ginLambda.ProxyWithContext(ctx, apiReq)
+	return chiLambda.ProxyWithContext(ctx, apiReq)
 }
 
 func main() {
