@@ -1,6 +1,6 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'App';
-import axios from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Button } from 'src/components/Button';
@@ -9,6 +9,13 @@ type MemoListScreenNavigationProp = NativeStackScreenProps<
     RootStackParamList,
     'MemoList'
 >;
+
+type MEMO = {
+    id: number;
+    title: string;
+};
+
+const url = 'http://localhost:9000/memos';
 
 export const MemoListScreen: React.FC<MemoListScreenNavigationProp> = ({
     navigation,
@@ -20,13 +27,21 @@ export const MemoListScreen: React.FC<MemoListScreenNavigationProp> = ({
         getMemos();
     }, []);
 
+    const options: AxiosRequestConfig = {
+        method: 'GET',
+        url: url,
+    };
+
     const getMemos = async () => {
-        try {
-            const response = await axios.get('http://localhost:3000/memos');
-            console.log('response', response);
-        } catch (error) {
-            console.log(error);
-        }
+        axios(options)
+            .then((res: AxiosResponse<MEMO[]>) => {
+                const { data, status } = res;
+                console.log(status);
+                console.log(data);
+            })
+            .catch((e: AxiosError<{ error: string }>) => {
+                console.log(e.message);
+            });
     };
 
     if (memos.length === 0) {
