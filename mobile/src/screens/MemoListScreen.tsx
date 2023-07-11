@@ -1,6 +1,7 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'App';
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Button } from 'src/components/Button';
 
@@ -14,6 +15,19 @@ export const MemoListScreen: React.FC<MemoListScreenNavigationProp> = ({
     route,
 }) => {
     const [memos, setMemos] = useState<string[]>([]);
+
+    useEffect(() => {
+        getMemos();
+    }, []);
+
+    const getMemos = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/memos');
+            console.log('response', response);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     if (memos.length === 0) {
         return (
