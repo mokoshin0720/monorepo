@@ -23,6 +23,8 @@ export const MemoListScreen: React.FC<MemoListScreenNavigationProp> = ({
 }) => {
     const [memos, setMemos] = useState<string[]>([]);
 
+    console.log(process.env.EXPO_PUBLIC_API_URL);
+
     useEffect(() => {
         getMemos();
     }, []);
