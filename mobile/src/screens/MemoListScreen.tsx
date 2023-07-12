@@ -4,6 +4,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Button } from 'src/components/Button';
+import { API_HOST } from 'src/config/env';
 
 type MemoListScreenNavigationProp = NativeStackScreenProps<
     RootStackParamList,
@@ -15,15 +16,11 @@ type MEMO = {
     title: string;
 };
 
-const url = 'http://localhost:9000/memos';
-
 export const MemoListScreen: React.FC<MemoListScreenNavigationProp> = ({
     navigation,
     route,
 }) => {
     const [memos, setMemos] = useState<string[]>([]);
-
-    console.log(process.env.EXPO_PUBLIC_API_URL);
 
     useEffect(() => {
         getMemos();
@@ -31,7 +28,7 @@ export const MemoListScreen: React.FC<MemoListScreenNavigationProp> = ({
 
     const options: AxiosRequestConfig = {
         method: 'GET',
-        url: url,
+        url: `${API_HOST}/memos`,
     };
 
     const getMemos = async () => {
