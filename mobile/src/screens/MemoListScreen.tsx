@@ -5,16 +5,12 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Button } from 'src/components/Button';
 import { API_HOST } from 'src/config/env';
+import { MemoModel } from 'src/model/Memo';
 
 type MemoListScreenNavigationProp = NativeStackScreenProps<
     RootStackParamList,
     'MemoList'
 >;
-
-type MEMO = {
-    id: number;
-    title: string;
-};
 
 export const MemoListScreen: React.FC<MemoListScreenNavigationProp> = ({
     navigation,
@@ -33,7 +29,7 @@ export const MemoListScreen: React.FC<MemoListScreenNavigationProp> = ({
 
     const getMemos = async () => {
         axios(options)
-            .then((res: AxiosResponse<MEMO[]>) => {
+            .then((res: AxiosResponse<MemoModel[]>) => {
                 const { data, status } = res;
                 console.log(status);
                 console.log(data);
