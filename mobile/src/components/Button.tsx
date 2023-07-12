@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
-import { baseColor, mainColor } from 'src/utils/color';
+import { baseColor, mainColor } from 'src/config/color';
 
 type ButtonProps = {
     label: string;

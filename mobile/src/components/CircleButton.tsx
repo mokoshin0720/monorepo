@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { baseColor, mainColor } from 'src/utils/color';
+import { baseColor, mainColor } from 'src/config/color';
 
 type CircleButtonProps = {
     name: keyof typeof MaterialIcons.glyphMap;

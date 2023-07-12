@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, TextInput } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native';
 import { CircleButton } from 'src/components/CircleButton';
-import { baseColor } from 'src/utils/color';
+import { baseColor } from 'src/config/color';
 
 type MemoCreateScreenNavigationProp = NativeStackScreenProps<
     RootStackParamList,
