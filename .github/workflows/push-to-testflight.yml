@@ -31,6 +31,12 @@ jobs:
         run: npm install
         working-directory: mobile
 
+      - name: Create AscApiKeyFile
+        run: |
+          echo ${{ secrets.ASC_KEY }} > ./AscApiKeyFile.p8
+          chmod 600 ./AscApiKeyFile
+        working-directory: mobile
+
       - name: Publish update
         run: eas build --platform ios --non-interactive --auto-submit --no-wait
         working-directory: mobile
