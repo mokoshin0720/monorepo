@@ -33,3 +33,4 @@ jobs:
 
       - name: Publish update
         run: eas build --platform all --non-interactive --auto-submit --no-wait
+        working-directory: mobild
