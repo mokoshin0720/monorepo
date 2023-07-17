@@ -34,7 +34,7 @@ jobs:
       - name: Create AscApiKeyFile
         run: |
           touch ./AscApiKeyFile.p8
-          echo ${{ secrets.ASC_KEY }} > ./AscApiKeyFile.p8
+          echo ${{ secrets.BASE64_ENCODED_ASC_KEY }} | base64 --decode > ./AscApiKeyFile.p8
           chmod 600 ./AscApiKeyFile.p8
         working-directory: mobile
 
