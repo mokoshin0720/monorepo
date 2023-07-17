@@ -32,5 +32,5 @@ jobs:
         working-directory: mobile
 
       - name: Publish update
-        run: eas build --platform all --non-interactive --auto-submit --no-wait
+        run: eas build --platform ios --non-interactive --auto-submit --no-wait
         working-directory: mobile
