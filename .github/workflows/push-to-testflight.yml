@@ -35,7 +35,7 @@ jobs:
         run: |
           touch ./AscApiKeyFile.p8
           echo ${{ secrets.ASC_KEY }} > ./AscApiKeyFile.p8
-          chmod 600 ./AscApiKeyFile
+          chmod 600 ./AscApiKeyFile.p8
         working-directory: mobile
 
       - name: Publish update
