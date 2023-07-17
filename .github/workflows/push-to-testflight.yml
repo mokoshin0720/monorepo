@@ -27,8 +27,14 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      - name: Echo hello world
+        run: echo "Hello world"
+
       - name: Echo working directory
         run: echo $PWD
+
+      - name: Echo ls
+        run: ls
 
       - name: Echo working directory after setting
         working-directory: mobile
