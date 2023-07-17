@@ -16,6 +16,7 @@
         "production": {
             "ios": {
                 "ascAppId": "@secret:IOS_ASC_APP_ID",
+                "ascApiKeyPath": "@secret:IOS_ASC_API_KEY_PATH",
                 "ascApiKeyIssuerId": "@secret:IOS_ASC_API_KEY_ISSUER_ID",
                 "ascApiKeyId": "@secret:IOS_ASC_API_KEY_ID"
             }
