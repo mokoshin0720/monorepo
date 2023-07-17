@@ -33,6 +33,7 @@ jobs:
 
       - name: Create AscApiKeyFile
         run: |
+          touch ./AscApiKeyFile.p8
           echo ${{ secrets.ASC_KEY }} > ./AscApiKeyFile.p8
           chmod 600 ./AscApiKeyFile
         working-directory: mobile
