@@ -1,10 +1,11 @@
 name: update
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - mobile/**
+  push
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - mobile/**
 
 jobs:
   update:
