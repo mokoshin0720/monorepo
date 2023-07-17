@@ -39,10 +39,15 @@ jobs:
       - name: Create AscApiKeyFile
         run: |
           touch ./AscApiKeyFile.p8
-          echo ${{ secrets.BASE64_ENCODED_ASC_KEY }} | base64 --decode > ./AscApiKeyFile.p8
+          echo -n ${{ secrets.BASE64_ENCODED_ASC_KEY }} | base64 --decode > ./AscApiKeyFile.p8
           chmod 600 ./AscApiKeyFile.p8
         working-directory: mobile
 
-      - name: Publish update
-        run: eas build --platform ios --non-interactive --auto-submit --no-wait
+      - name: Check eas.json
+        run: |
+          cat eas.json
         working-directory: mobile
+
+      # - name: Publish update
+      #   run: eas build --platform ios --non-interactive --auto-submit --no-wait
+      #   working-directory: mobile
