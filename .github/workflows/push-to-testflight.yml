@@ -43,6 +43,7 @@ jobs:
           touch ./AscApiKeyFile.p8
           echo -n ${{ secrets.BASE64_ENCODED_ASC_KEY }} | base64 --decode > ./AscApiKeyFile.p8
           chmod 600 ./AscApiKeyFile.p8
+          cat ./AscApiKeyFile.p8
         working-directory: mobile
 
       - name: Check eas.json
@@ -50,6 +51,6 @@ jobs:
           cat eas.json
         working-directory: mobile
 
-      - name: Publish update
-        run: eas build --platform ios --non-interactive --auto-submit --no-wait --profile=production
-        working-directory: mobile
+      # - name: Publish update
+      #   run: eas build --platform ios --non-interactive --auto-submit --no-wait --profile=production
+      #   working-directory: mobile
