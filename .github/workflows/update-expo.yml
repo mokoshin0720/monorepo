@@ -1,8 +1,8 @@
 name: update
 on:
   push:
-    paths:
-      - mobile/**
+    # paths:
+    #   - mobile/**
 
 jobs:
   update:
