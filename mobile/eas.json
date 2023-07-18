@@ -17,12 +17,7 @@
     },
     "submit": {
         "production": {
-            "ios": {
-                "ascAppId": "@secret:IOS_ASC_APP_ID",
-                "ascApiKeyPath": "AscApiKeyFile.p8",
-                "ascApiKeyIssuerId": "@secret:IOS_ASC_API_KEY_ISSUER_ID",
-                "ascApiKeyId": "@secret:IOS_ASC_API_KEY_ID"
-            }
+            "ios": {}
         }
     }
 }
