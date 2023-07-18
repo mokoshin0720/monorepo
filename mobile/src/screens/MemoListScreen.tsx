@@ -46,6 +46,7 @@ export const MemoListScreen: React.FC<MemoListScreenNavigationProp> = ({
                     <Text style={emptyStyles.title}>
                         最初のメモを作成しよう！
                     </Text>
+                    <Text>{API_HOST}</Text>
                 </View>
                 <Button
                     label="作成する"
