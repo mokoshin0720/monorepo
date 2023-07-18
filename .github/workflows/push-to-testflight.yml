@@ -1,12 +1,10 @@
 name: update
-on: push
-# on:
-#   push
-# push:
-#   branches:
-#     - main
-#   paths:
-#     - mobile/**
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - mobile/**
 
 jobs:
   update:
@@ -36,19 +34,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: mobile
-
-      - name: Create AscApiKeyFile
-        run: |
-          touch ./AscApiKeyFile.p8
-          echo -n ${{ secrets.BASE64_ENCODED_ASC_KEY }} | base64 --decode > ./AscApiKeyFile.p8
-          chmod 600 ./AscApiKeyFile.p8
-          cat ./AscApiKeyFile.p8
-        working-directory: mobile
-
-      - name: Check eas.json
-        run: |
-          cat eas.json
         working-directory: mobile
 
       - name: Publish update
