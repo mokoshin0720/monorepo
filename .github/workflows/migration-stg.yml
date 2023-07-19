@@ -1,4 +1,4 @@
-name: python-app
+name: stg-migration
 
 on:
   push:
@@ -9,7 +9,7 @@ jobs:
     timeout-minutes: 300
 
     steps:
-      - uses: actions/checkout@1
+      - uses: actions/checkout@v1
 
       - name: build migrate
         env:
