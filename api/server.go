@@ -5,10 +5,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 	"github.com/graph-gophers/graphql-go"
 	"github.com/graph-gophers/graphql-go/relay"
-	"github.com/mokoshin0720/monorepo/app/config"
 	"github.com/mokoshin0720/monorepo/service/exercise"
 )
 
@@ -34,10 +33,6 @@ func newHandler() (*chi.Mux, error) {
 
 	h := &relay.Handler{Schema: schema}
 	r := chi.NewRouter()
-	r = Common(r, CommonConfig{
-		Timeout:      config.Router.Timeout,
-		AllowOrigins: config.Router.AllowOrigins,
-	})
 
 	r.Mount("/", h)
 	r.Group(func(r chi.Router) {
