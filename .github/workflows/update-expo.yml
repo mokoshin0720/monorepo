@@ -35,5 +35,5 @@ jobs:
         working-directory: mobile
 
       - name: Publish update
-        run: eas update --auto
+        run: EXPO_PUBLIC_APP_ENV="staging" eas update --auto
         working-directory: mobile
