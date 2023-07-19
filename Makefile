@@ -1,9 +1,14 @@
-run:
-	cd api; docker-compose up
-	cd mobile; npx expo start --ios
+.SHELL := /bin/bash
 
-ios:
-	cd mobile; npx expo start --ios
+init: ## setup docker build, network, and databases
+	bash hack/docker-run.sh
 
-server:
-	cd api; docker-compose up
+server: init migrate
+	docker-compose up monorepo_api
+
+.PHONY: migrate
+migrate: init
+	docker-compose run --rm monorepo_migration
+
+down:
+	docker-compose down --remove-orphans
