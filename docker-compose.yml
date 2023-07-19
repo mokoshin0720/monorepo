@@ -42,7 +42,7 @@ services:
     container_name: monorepo-migration
     build:
       context: migration
-      dockerfile: Dockerfile
+      dockerfile: docker/dev/Dockerfile
     env_file:
       - ./migration/.env
     networks:
