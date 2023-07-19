@@ -35,5 +35,8 @@ jobs:
         working-directory: mobile
 
       - name: Publish update
-        run: EXPO_PUBLIC_APP_ENV="staging" EXPO_PUBLIC_API_URL="http://localhost:9000/staging" eas update --auto
+        run: |
+          EXPO_PUBLIC_APP_ENV="staging" 
+          EXPO_PUBLIC_API_URL="http://localhost:9000/staging" 
+          eas update --auto
         working-directory: mobile
