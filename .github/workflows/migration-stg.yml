@@ -2,6 +2,10 @@ name: stg-migration
 
 on:
   push:
+    branches:
+      - main
+    paths:
+      - migration/**
 
 jobs:
   migration-stg:
