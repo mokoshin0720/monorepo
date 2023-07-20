@@ -1,0 +1,57 @@
+version: "3.7"
+
+services:
+  monorepo_api:
+    build:
+      context: api
+      dockerfile: docker/dev/Dockerfile
+    container_name: monorepo_api
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./api:/go/src/app
+    working_dir: /go/src/app
+    env_file:
+      - api/.env
+    command: air -c .air.toml
+
+  mysql:
+    container_name: monorepo-mysql
+    platform: linux/x86_64
+    image: mysql:5.7-debian
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: monorepo
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    networks:
+      - monorepo
+    volumes:
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+
+  monorepo_dockerize:
+    image: jwilder/dockerize:0.6.1
+    networks:
+      - monorepo
+    command: dockerize
+    profiles:
+      - dev
+
+  monorepo_migration:
+    container_name: monorepo-migration
+    build:
+      context: migration
+      dockerfile: docker/dev/Dockerfile
+    env_file:
+      - ./migration/.env
+    networks:
+      - monorepo
+    depends_on:
+      - mysql
+    volumes:
+      - ./migration:/migrations
+
+networks:
+  monorepo:
+    external: true
