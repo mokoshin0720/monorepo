@@ -19,4 +19,4 @@ jobs:
           MYSQL_DATABASE: ${{ secrets.STG_MYSQL_DATABASE }}
         run: |
           docker build . -f migration/docker/planet-scale/Dockerfile -t migration
-          docker exec migration mysqldef -u ${{ env.MYSQL_USER }} --host ${{ env.MYSQL_HOST }} -p ${{ env.MYSQL_PASSWORD }} ${{ env.MYSQL_DATABASE }} < migration/schema.sql
+          docker run --name migration -e MYSQL_USER=${{ env.MYSQL_USER }} -e MYSQL_HOST=${{ env.MYSQL_HOST }} -e MYSQL_PASSWORD=${{ env.MYSQL_PASSWORD }} -e MYSQL_DATABASE=${{ env.MYSQL_DATABASE }}

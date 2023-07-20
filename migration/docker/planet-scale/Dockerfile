@@ -6,3 +6,5 @@ RUN chmod +x /usr/local/bin/mysqldef
 
 WORKDIR /migrations
 COPY . /migrations
+
+CMD ["sh", "./migrate.sh"]
