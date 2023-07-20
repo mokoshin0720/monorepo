@@ -71,7 +71,7 @@ func MySQL() (*DB, error) {
 			loglev = logger.Error
 		}
 		dns := fmt.Sprintf(
-			"%s:%s@(%s:%s)/%s?charset=utf8mb4&parseTime=true&",
+			"%s:%s@(%s:%s)/%s?charset=utf8mb4&parseTime=true",
 			config.MySQL.User,
 			config.MySQL.Password,
 			config.MySQL.Host,

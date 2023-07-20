@@ -7,13 +7,21 @@ services:
       dockerfile: docker/dev/Dockerfile
     container_name: monorepo_api
     ports:
-      - "9000:9000"
+      - 9000:9000
+    depends_on:
+      - mysql
     volumes:
       - ./api:/go/src/app
     working_dir: /go/src/app
     env_file:
       - api/.env
     command: air -c .air.toml
+    security_opt:
+      - apparmor:unconfined
+    cap_add:
+      - SYS_PTRACE
+    networks:
+      - monorepo
 
   mysql:
     container_name: monorepo-mysql
